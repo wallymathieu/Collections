@@ -1,9 +1,25 @@
 ﻿namespace WhatIsUpdated
 open System
+open System.Linq
+    module Diff = 
+        
+        (*
+        let Changed<'t,'key> (map:('t->'key), existing:IEnumerable<'t>, incoming:IEnumerable<'t>): Updated<'t> = 
+            failwith("!")
+        *)
+        let changed<'t,'key when 'key : comparison> (map:('t->'key)) (existing:List<'t>) (incoming:List<'t>): Updated<'t> = 
+            let mapWith = List.map map
+            let (setE, setI) = (existing |> mapWith |> Set.ofList, incoming |> mapWith |>  Set.ofList)
+            let toAdd = Set.difference setI setE
+            let toDel = Set.difference setE setI
+            let toChange = Set.intersect setI setE
 
-//    module Diff = 
+            let get list key =
+                list |> List.find (fun i -> map(i) = key)
 
-        //let changed map existing incoming = 
-        //    failwith("!")
-            
+            {ToBeAdded= toAdd |> Set.toList |>  List.map (get incoming) ;
+             ToBeRemoved=toDel|> Set.toList |>  List.map (get existing); 
+             ToChange=toChange |> Set.toList |>  List.map (get incoming)
+             }
+
 
