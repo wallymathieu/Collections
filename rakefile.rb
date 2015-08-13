@@ -22,8 +22,8 @@ end
 task :default => ['build']
 
 desc "test using nunit console"
-test_runner :test => [:build] do |nunit|
+test_runner :test do |nunit|
   nunit.exe = NugetHelper.nunit_path
-  files = Dir.glob(File.join($dir,"*Tests","bin","**","*Tests.dll")) 
+  files = Dir.glob(File.join($dir,"**","bin","**","*Tests.dll")) 
   nunit.files = files 
 end

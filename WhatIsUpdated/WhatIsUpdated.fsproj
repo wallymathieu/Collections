@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.fs" />
+    <Compile Include="dictionary.fs" />
     <Compile Include="Updated.fs" />
     <Compile Include="Diff.fsi" />
     <Compile Include="Diff.fs" />
