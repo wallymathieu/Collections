@@ -7,7 +7,7 @@ open System.Linq
         let Changed<'t,'key> (map:('t->'key), existing:IEnumerable<'t>, incoming:IEnumerable<'t>): Updated<'t> = 
             failwith("!")
         *)
-        let changed<'t,'key when 'key : comparison> (map:('t->'key)) (existing:List<'t>) (incoming:List<'t>): Updated<'t> = 
+        let changed map existing incoming = 
             let mapWith = List.map map
             let (setE, setI) = (existing |> mapWith |> Set.ofList, incoming |> mapWith |>  Set.ofList)
             let toAdd = Set.difference setI setE
@@ -18,7 +18,7 @@ open System.Linq
                 list |> List.find (fun i -> map(i) = key)
 
             {ToBeAdded= toAdd |> Set.toList |>  List.map (get incoming) ;
-             ToBeRemoved=toDel|> Set.toList |>  List.map (get existing); 
+             ToBeRemoved=toDel|> Set.toList |>  List.map (get existing) ; 
              ToChange=toChange |> Set.toList |>  List.map (get incoming)
              }
 
