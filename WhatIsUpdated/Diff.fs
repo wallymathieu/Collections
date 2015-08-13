@@ -1,7 +1,9 @@
-﻿
-
-namespace WhatIsUpdated
+﻿namespace WhatIsUpdated
 open System
 
-    module Diff = 
-        //val changed 
+//    module Diff = 
+
+        //let changed map existing incoming = 
+        //    failwith("!")
+            
+
