@@ -1,0 +1,24 @@
+﻿<Properties StartupItem="WhatIsUpdated/WhatIsUpdated.fsproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="WhatIsUpdated/Diff.fsi">
+    <Files>
+      <File FileName="Tests/Tutorial.fs" Line="10" Column="27" />
+      <File FileName="WhatIsUpdated/Diff.fsi" Line="9" Column="9" />
+      <File FileName="WhatIsUpdated/Diff.fs" Line="7" Column="11" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="WhatIsUpdated" expanded="True">
+            <Node name="Tests" expanded="True" />
+            <Node name="WhatIsUpdated" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
