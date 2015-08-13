@@ -3,11 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestsCs", "TestsCs\TestsCs.csproj", "{90AB00AD-F6CA-40ED-AC4C-36FC3F43F9AC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpTests", "CSharpTests\CSharpTests.csproj", "{90AB00AD-F6CA-40ED-AC4C-36FC3F43F9AC}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Tests", "Tests\Tests.fsproj", "{0E7C9594-9492-4457-A900-A833F5B5CE1F}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "WhatIsUpdated", "WhatIsUpdated\WhatIsUpdated.fsproj", "{6CA54190-7AF2-430E-AEB8-0BCAA62B1BCC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BE95164D-B9B0-4466-A4BD-53AC56CD5258}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

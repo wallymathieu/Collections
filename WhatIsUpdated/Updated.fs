@@ -1,4 +1,4 @@
 ﻿namespace WhatIsUpdated
 
-    type Updated<'T> = { ToBeAdded : List<'T>; ToBeRemoved : List<'T>; ToChange : List<'T> } 
+    type Updated<'T> = { ToBeAdded : 'T seq; ToBeRemoved : 'T seq; ToChange : 'T seq } 
 

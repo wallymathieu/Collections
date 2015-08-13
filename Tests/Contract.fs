@@ -1,30 +1,23 @@
 ﻿namespace Tests
+open WhatIsUpdated
 open NUnit.Framework
 open FsUnit
-open WhatIsUpdated
-(*
 
 [<TestFixture>] 
-type ``Given an incoming list with additional element`` ()=
-    let lightBulb = new LightBulb(true)
-
-    [<Test>] member test.
-     ``when I ask whether it is On it answers true.`` ()=
-            lightBulb.On |> should be True
-
-    [<Test>] member test.
-     ``when I convert it to a string it becomes "On".`` ()=
-            string lightBulb |> should equal "On"
-
-[<TestFixture>]
-type ``Given a LightBulb that has had its state set to false`` ()=
-    let lightBulb = new LightBulb(false)
+type ``Given an existing list with one element`` ()=
+    let existing = [1]
     
+    let id = fun x -> x
+
     [<Test>] member test.
-     ``when I ask whether it is On it answers false.`` ()=
-            lightBulb.On |> should be False
-    
+     ``When there is an incoming element.`` ()=
+            Diff.changed id existing (2::existing) |> should equal { ToBeAdded = [2]; ToBeRemoved = []; ToChange = [1]}
+
     [<Test>] member test.
-     ``when I convert it to a string it becomes "Off".`` ()=
-            string lightBulb |> should equal "Off"
-        *)
+     ``When there an empty incoming list`` ()=
+            Diff.changed id existing [] |> should equal { ToBeAdded = []; ToBeRemoved = [1]; ToChange = []}
+
+    [<Test>] member test.
+     ``When incoming is the same as existing`` ()=
+            Diff.changed id existing existing |> should equal { ToBeAdded = []; ToBeRemoved = []; ToChange = [1]}
+        
