@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Carable.WhatIsUpdated
+namespace Carable
 {
-    public class Updated<T>:IEquatable<Updated<T>>
+    public class CollectionChanges<T>:IEquatable<CollectionChanges<T>>
     {
-        public Updated(IEnumerable<T> toBeAdded, IEnumerable<T> toBeRemoved, IEnumerable<MaybeChanged<T>> toChange)
+        public CollectionChanges(IEnumerable<T> toBeAdded, IEnumerable<T> toBeRemoved, IEnumerable<CollectionItemsThatMayHaveChanged<T>> toChange)
         {
             ToBeAdded = toBeAdded.ToArray();
             ToBeRemoved = toBeRemoved.ToArray();
@@ -15,7 +15,7 @@ namespace Carable.WhatIsUpdated
 
         public IReadOnlyCollection<T> ToBeAdded { get; }
         public IReadOnlyCollection<T> ToBeRemoved { get; }
-        public IReadOnlyCollection<MaybeChanged<T>> ToChange { get; }
+        public IReadOnlyCollection<CollectionItemsThatMayHaveChanged<T>> ToChange { get; }
         public override string ToString()
         {
             return $"ToBeAdded: {Format(ToBeAdded)}, ToBeRemoved: {Format(ToBeRemoved)}, ToChange: {Format(ToChange)}";
@@ -29,7 +29,7 @@ namespace Carable.WhatIsUpdated
         private static string ToString<T1>(T1 t) => t.ToString();
         public override bool Equals(object obj)
         {
-            return Equals(obj as Updated<T>);
+            return Equals(obj as CollectionChanges<T>);
         }
         
         public override int GetHashCode()
@@ -44,7 +44,7 @@ namespace Carable.WhatIsUpdated
             }
         }
 
-        public bool Equals(Updated<T> other)
+        public bool Equals(CollectionChanges<T> other)
         {
             if (Object.ReferenceEquals(null, other)) return false;
             return

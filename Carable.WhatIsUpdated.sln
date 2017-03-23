@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carable.WhatIsUpdated", "WhatIsUpdated\Carable.WhatIsUpdated.csproj", "{455FA659-9F32-4A1C-8658-94153C929B0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carable.CollectionChanges", "WhatIsUpdated\Carable.CollectionChanges.csproj", "{455FA659-9F32-4A1C-8658-94153C929B0D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{7802B63A-0996-4C3F-AE0E-7AEFF37F9679}"
 EndProject

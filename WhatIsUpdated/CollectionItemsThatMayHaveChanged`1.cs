@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Carable.WhatIsUpdated
+namespace Carable
 {
-    public class MaybeChanged<T> : IEquatable<MaybeChanged<T>>
+    public class CollectionItemsThatMayHaveChanged<T> : IEquatable<CollectionItemsThatMayHaveChanged<T>>
     {
-        public T Existing { get;}
-        public T Updated { get;}
-        public MaybeChanged(T existing, T updated)
+        public T Existing { get; }
+        public T Updated { get; }
+        public CollectionItemsThatMayHaveChanged(T existing, T updated)
         {
             Existing = existing;
             Updated = updated;
@@ -19,7 +19,7 @@ namespace Carable.WhatIsUpdated
         }
         public override bool Equals(object obj)
         {
-            return Equals(obj as MaybeChanged<T>);
+            return Equals(obj as CollectionItemsThatMayHaveChanged<T>);
         }
 
         public override int GetHashCode()
@@ -33,7 +33,7 @@ namespace Carable.WhatIsUpdated
             }
         }
 
-        public bool Equals(MaybeChanged<T> other)
+        public bool Equals(CollectionItemsThatMayHaveChanged<T> other)
         {
             if (Object.ReferenceEquals(null, other)) return false;
             return

@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Carable.WhatIsUpdated
+namespace Carable
 {
-    public static class Diff
+    public static class CollectionChangesExtensions
     {
-        public static Updated<T> CollectionChanges<T>(this IEnumerable<T> existing, IEnumerable<T> updated)
+        public static CollectionChanges<T> CollectionChanges<T>(this IEnumerable<T> existing, IEnumerable<T> updated)
         {
             return existing.CollectionChanges(updated, Id);
         }
 
-        public static Updated<T> CollectionChanges<T, TKey>(this IEnumerable<T> existing, IEnumerable<T> updated, Func<T, TKey> getKey)
+        public static CollectionChanges<T> CollectionChanges<T, TKey>(this IEnumerable<T> existing, IEnumerable<T> updated, Func<T, TKey> getKey)
         {
             var e = existing.ToArray();
             var u = updated.ToArray();
@@ -24,11 +24,11 @@ namespace Carable.WhatIsUpdated
             var toAdd = setU.Except(setE).Select(key => dicU[key]);
             var toRemove = setE.Except(setU).Select(key => dicE[key]);
             var toChange = setE.Intersect(setU)
-                .Select(key => new MaybeChanged<T>(
+                .Select(key => new CollectionItemsThatMayHaveChanged<T>(
                                     updated: dicU[key],
                                     existing: dicE[key]));
 
-            return new Updated<T>(toChange: toChange, toBeAdded: toAdd, toBeRemoved: toRemove);
+            return new CollectionChanges<T>(toChange: toChange, toBeAdded: toAdd, toBeRemoved: toRemove);
         }
 
         private static T Id<T>(T val) => val;
