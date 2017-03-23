@@ -11,8 +11,4 @@
     <RootNamespace>Carable</RootNamespace>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="NewFolder\" />
-  </ItemGroup>
-
 </Project>
