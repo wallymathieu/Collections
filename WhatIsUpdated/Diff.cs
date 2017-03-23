@@ -4,9 +4,14 @@ using System.Linq;
 
 namespace Carable.WhatIsUpdated
 {
-    public class Diff
+    public static class Diff
     {
-        public static Updated<T> Changed<T, TKey>(Func<T, TKey> getKey, IEnumerable<T> existing, IEnumerable<T> updated)
+        public static Updated<T> CollectionChanges<T>(this IEnumerable<T> existing, IEnumerable<T> updated)
+        {
+            return existing.CollectionChanges(updated, Id);
+        }
+
+        public static Updated<T> CollectionChanges<T, TKey>(this IEnumerable<T> existing, IEnumerable<T> updated, Func<T, TKey> getKey)
         {
             var e = existing.ToArray();
             var u = updated.ToArray();
