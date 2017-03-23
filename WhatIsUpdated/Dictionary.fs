@@ -8,6 +8,7 @@ open System.Linq
         let get (hash:IDictionary<_,_>) key =
             hash.[key]
         let tryGet (hash:IDictionary<_,_>) key =
+
             if hash.ContainsKey key then Some(hash.[key]) else None
 
 

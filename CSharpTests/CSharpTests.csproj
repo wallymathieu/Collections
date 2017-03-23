@@ -43,9 +43,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="With, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\With.0.4.17\lib\net40\With.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="With">
+      <HintPath>..\packages\With.3.0.0\lib\net45\With.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
