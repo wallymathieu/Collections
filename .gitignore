@@ -10,9 +10,3 @@ pom.xml.asc
 .lein-plugins/
 .lein-failures
 .nrepl-port
-
-packages/
-bin/
-obj/
-
-.vs/
