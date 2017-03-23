@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace WhatIsUpdated
+namespace Carable.WhatIsUpdated
 {
     public class Diff
     {
