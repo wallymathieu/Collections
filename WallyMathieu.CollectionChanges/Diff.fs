@@ -30,13 +30,13 @@ module Diff =
             | true, v-> Some(v) 
             | false, _ -> None
 
-    let changed (map:'a->'b) existing incoming = 
-        let mapWith = Seq.map map
-        let setE = existing |> mapWith |> HashSet
-        let setI = incoming |> mapWith |> HashSet
-          
-        let hashE = Dic.fromSeq map existing
-        let hashI = Dic.fromSeq map incoming 
+    let changed (mapE:'a->'b) (existing:'a seq) (mapI:'c->'b) (incoming:'c seq) = 
+        let setE = existing |> Seq.map mapE |> HashSet
+        let setI = incoming |> Seq.map mapI |> HashSet
+
+        let hashE = Dic.fromSeq mapE existing
+        let hashI = Dic.fromSeq mapI incoming 
+
         let toAdd = setI.Except setE // Set.difference setI setE
         let toDel = setE.Except setI
         let toChange =  setI.Intersect setE
