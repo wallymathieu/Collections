@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <PackageId>Carable.CollectionChanges</PackageId>
+    <Authors>Carable</Authors>
+    <Company>Carable</Company>
+    <Product>Carable.CollectionChanges</Product>
+    <Description>What's updated? Given incoming list with updated information what needs to be updated</Description>
+    <AssemblyName>Carable.CollectionChanges</AssemblyName>
+    <RootNamespace>Carable</RootNamespace>
+    <Version>1.1.0</Version>
+  </PropertyGroup>
+
+</Project>
