@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Carable
+namespace WallyMathieu
 {
     public class CollectionChanges<TExisting, TUpdated> : IEquatable<CollectionChanges<TExisting, TUpdated>>
     {

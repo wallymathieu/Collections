@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Carable
+namespace WallyMathieu
 {
     public class CollectionItemsThatMayHaveChanged<TExisting, TUpdated> : IEquatable<CollectionItemsThatMayHaveChanged<TExisting, TUpdated>>
     {
