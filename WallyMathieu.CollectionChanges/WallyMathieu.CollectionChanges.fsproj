@@ -1,0 +1,31 @@
+﻿<Project Sdk="FSharp.NET.Sdk;Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <PackageId>WallyMathieu.CollectionChanges</PackageId>
+    <Authors>WallyMathieu</Authors>
+    <Company>WallyMathieu</Company>
+    <Product>WallyMathieu.CollectionChanges</Product>
+    <Description>What's updated? Given incoming list with updated information what needs to be updated</Description>
+    <AssemblyName>WallyMathieu.CollectionChanges</AssemblyName>
+    <RootNamespace>WallyMathieu</RootNamespace>
+    <Version>0.1.0</Version>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Owners>WallyMathieu</Owners>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <DefineConstants></DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FSharp.Core" Version="4.1.*" />
+    <PackageReference Include="FSharp.NET.Sdk" Version="1.0.*" PrivateAssets="All" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Diff.fs" />
+  </ItemGroup>
+  
+</Project>
