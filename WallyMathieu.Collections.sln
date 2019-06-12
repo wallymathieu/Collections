@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29009.5
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WallyMathieu.CollectionChanges", "WhatIsUpdated\WallyMathieu.CollectionChanges.csproj", "{455FA659-9F32-4A1C-8658-94153C929B0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WallyMathieu.Collections", "WallyMathieu.Collections\WallyMathieu.Collections.csproj", "{455FA659-9F32-4A1C-8658-94153C929B0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{7802B63A-0996-4C3F-AE0E-7AEFF37F9679}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{7802B63A-0996-4C3F-AE0E-7AEFF37F9679}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,5 +34,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A9C90C86-A224-4263-A34F-E18A14D906A3}
 	EndGlobalSection
 EndGlobal

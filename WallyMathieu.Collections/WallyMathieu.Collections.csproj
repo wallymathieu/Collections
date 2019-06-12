@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>netstandard1.4;netstandard2.0;net45</TargetFrameworks>
+    <Authors>WallyMathieu</Authors>
+    <Description>What's updated? Given incoming list with updated information what needs to be updated</Description>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+
+</Project>
