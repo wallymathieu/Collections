@@ -5,6 +5,7 @@
     <Authors>WallyMathieu</Authors>
     <Description>What's updated? Given incoming list with updated information what needs to be updated</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Version>0.0.1</Version>
   </PropertyGroup>
 
 

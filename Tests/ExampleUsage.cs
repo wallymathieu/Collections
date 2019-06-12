@@ -25,6 +25,7 @@ namespace Tests
             IQueryable<Product> Products { get; }
             Task<int> SaveChangesAsync();
             void Add(Product product);
+            void Remove(Product product);
         }
 
         public ExampleUsage(IProductDb db)
@@ -48,8 +49,12 @@ namespace Tests
                     Description = incoming.Name
                 });
             }
+            foreach (var outgoing in comparison.Minus)
+            {
+                db.Remove(outgoing);
+            }
             await db.SaveChangesAsync();
-            return "Changed and created products";
+            return "Changed and created and deleted products";
         }
     }
 }
