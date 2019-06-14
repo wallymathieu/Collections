@@ -41,7 +41,7 @@ namespace Tests
             {
                 valueIntersection.Left.Description = valueIntersection.Right.Name;
             }
-            foreach (var incoming in comparison.Plus)
+            foreach (var incoming in comparison.OnlyInRight)
             {
                 db.Add(new Product
                 {
@@ -49,7 +49,7 @@ namespace Tests
                     Description = incoming.Name
                 });
             }
-            foreach (var outgoing in comparison.Minus)
+            foreach (var outgoing in comparison.OnlyInLeft)
             {
                 db.Remove(outgoing);
             }

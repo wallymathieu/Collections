@@ -15,7 +15,7 @@ using WallyMathieu.Collections;
             {
                 valueIntersection.Left.Description = valueIntersection.Right.Name;
             }
-            foreach (var incoming in comparison.Plus)
+            foreach (var incoming in comparison.OnlyInRight)
             {
                 db.Add(new Product
                 {
@@ -23,7 +23,7 @@ using WallyMathieu.Collections;
                     Description = incoming.Name
                 });
             }
-            foreach (var outgoing in comparison.Minus)
+            foreach (var outgoing in comparison.OnlyInLeft)
             {
                 db.Remove(outgoing);
             }
