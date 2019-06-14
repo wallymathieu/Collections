@@ -1,0 +1,9 @@
+image: Visual Studio 2017
+build_script:
+  - dotnet restore ./WallyMathieu.Collections.sln
+  - dotnet build ./WallyMathieu.Collections.sln
+test_script:
+  - dotnet test ./Tests
+branches:
+  only: 
+    - master
