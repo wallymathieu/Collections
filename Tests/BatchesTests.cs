@@ -8,7 +8,6 @@ namespace Tests
     public class BatchesTests
     {
         [Fact]
-
         public void Test() => Assert.Equal(new[]{
             new []{1, 2, 3},
             new []{4, 5, 6},
