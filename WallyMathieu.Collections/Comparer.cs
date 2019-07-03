@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace WallyMathieu.Collections
 {
     /// <summary>
-    /// Class that holds methods related to comparers
+    /// Provides a set of static methods for comparer
     /// </summary>
     public static class Comparer
     {
