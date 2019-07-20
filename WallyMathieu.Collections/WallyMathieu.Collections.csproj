@@ -6,7 +6,7 @@
     <Description>Collections and collection extensions</Description>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>0.0.2</Version>
+    <Version>0.0.3</Version>
     <PackageProjectUrl>https://github.com/wallymathieu/Collections</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/wallymathieu/Collections.git</RepositoryUrl>
