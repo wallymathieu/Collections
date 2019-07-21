@@ -6,7 +6,7 @@ before_build:
       $branchName = "$env:APPVEYOR_REPO_BRANCH".Replace("_","");
       $versionSuffixBRANCH = "$branchName-$buildId";
       $env:VersionSuffix = if ("$env:APPVEYOR_REPO_TAG" -eq "true") { "" } else { if ("$env:APPVEYOR_PULL_REQUEST_NUMBER") { $versionSuffixPR } else { $versionSuffixBRANCH } };
-  - msbuild /t restore .\WallyMathieu.Collections.sln
+  - msbuild /t:restore .\WallyMathieu.Collections.sln
 build:
   project: .\WallyMathieu.Collections.sln
   verbosity: minimal
