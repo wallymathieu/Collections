@@ -35,10 +35,5 @@ namespace Tests
         public void When_incoming_is_the_same_as_existing() =>
             Assert.Equal(existing.SymmetricDiff(existing),
                 new DifferenceBuilder<int, string, string>().AddKeyIntersection(1, "1", "1").Build());
-
-        private ImmutableDictionary<TKey,TValue> Cons<TKey,TValue>(TKey key,TValue value, ImmutableDictionary<TKey,TValue> arr)
-        {//TODO: Make it more c#-y
-            return new Dictionary<TKey, TValue>(arr) {{key, value}}.ToImmutableDictionary();
-        }
     }
 }
