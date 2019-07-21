@@ -8,6 +8,7 @@ namespace Tests
     public class ExampleUsage
     {
         private readonly IProductDb db;
+        private readonly IPublisher publisher;
 
         public class ProductModel
         {
@@ -26,8 +27,14 @@ namespace Tests
             Task<int> SaveChangesAsync();
             void Add(Product product);
             void Remove(Product product);
+            IQueryable<int> PublishedProducts { get; }
         }
 
+        public interface IPublisher
+        {
+            Task Publish(Product product);
+            Task UnPublish(Product product);
+        }
         public ExampleUsage(IProductDb db)
         {
             this.db = db;
@@ -36,12 +43,12 @@ namespace Tests
         public async Task<string> Post(IEnumerable<ProductModel> body)
         {
             var comparison = db.Products.ToDictionary(c => c.Key)
-                                    .Compare(body.ToDictionary(c => c.Id));
+                                    .SymmetricDiff(body.ToDictionary(c => c.Id));
             foreach (var valueIntersection in comparison.Intersection)
             {
                 valueIntersection.Left.Description = valueIntersection.Right.Name;
             }
-            foreach (var incoming in comparison.OnlyInRight)
+            foreach (var (_,incoming) in comparison.OnlyInRight)
             {
                 db.Add(new Product
                 {
@@ -49,12 +56,34 @@ namespace Tests
                     Description = incoming.Name
                 });
             }
-            foreach (var outgoing in comparison.OnlyInLeft)
+            foreach (var (_,outgoing) in comparison.OnlyInLeft)
             {
                 db.Remove(outgoing);
             }
             await db.SaveChangesAsync();
             return "Changed and created and deleted products";
+        }
+
+
+        public class PublishedProductsModel
+        {
+            public int[] ProductIds { get; set; }
+        }
+        
+        public async Task Post(PublishedProductsModel body)
+        {
+            var comparison = db.PublishedProducts.ToHashSet()
+                                .SymmetricDiff(body.ProductIds.ToHashSet());
+
+            foreach (var product in db.Products.Where(p=>comparison.OnlyInRight.Contains(p.Key)))
+            {
+                await publisher.Publish(product);
+            }
+
+            foreach (var product in db.Products.Where(p=>comparison.OnlyInLeft.Contains(p.Key)))
+            {
+                await publisher.UnPublish(product);
+            }
         }
     }
 }
