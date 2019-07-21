@@ -1,9 +1,23 @@
 image: Visual Studio 2017
-build_script:
-  - dotnet restore ./WallyMathieu.Collections.sln
-  - dotnet build ./WallyMathieu.Collections.sln
+before_build:
+  - ps: >-
+      $buildId = $env:APPVEYOR_BUILD_NUMBER.PadLeft(5, '0');
+      $versionSuffixPR = "PR$($env:APPVEYOR_PULL_REQUEST_NUMBER)-$buildId";
+      $branchName = "$env:APPVEYOR_REPO_BRANCH".Replace("_","");
+      $versionSuffixBRANCH = "$branchName-$buildId";
+      $env:VersionSuffix = if ("$env:APPVEYOR_REPO_TAG" -eq "true") { "" } else { if ("$env:APPVEYOR_PULL_REQUEST_NUMBER") { $versionSuffixPR } else { $versionSuffixBRANCH } };
+  - msbuild /t restore .\WallyMathieu.Collections.sln
+build:
+  project: .\WallyMathieu.Collections.sln
+  verbosity: minimal
+  publish_nuget: true
 test_script:
-  - dotnet test ./Tests
+  - dotnet test .\Tests
 branches:
   only: 
     - master
+configuration: Release
+nuget:
+  account_feed: false
+  project_feed: true
+  disable_publish_on_pr: true
