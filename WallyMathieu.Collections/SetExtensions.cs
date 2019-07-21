@@ -13,7 +13,6 @@ namespace WallyMathieu.Collections
         /// Compare two sets.
         /// </summary>
         public static ISymmetricDifference<T> SymmetricDiff<T>(this ISet<T> right, ISet<T> left) 
-            where T: struct, IEquatable<T>
         {
             var onlyInRight = right.Except(left);
             var onlyInLeft = left.Except(right);
