@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace WallyMathieu.Collections
@@ -35,5 +36,23 @@ namespace WallyMathieu.Collections
                 }
             }
         }
+        public static IEnumerable<string> Compare(this IEnumerable<string> first,IEnumerable<string> second)
+        {
+            throw new Exception();
+        }
     }
+
+    public static class SetExtensions
+    {
+       
+        public static ISymmetricDifference<T> SymmetricDiff<T>(this ISet<T> right, ISet<T> left) 
+            where T: struct, IEquatable<T>
+        {
+            var onlyInRight = right.Except(left);
+            var onlyInLeft = left.Except(right);
+
+            return new SymmetricDifference<T>(onlyInRight, onlyInLeft);
+        }
+    }
+   
 }

@@ -36,12 +36,12 @@ namespace Tests
         public async Task<string> Post(IEnumerable<ProductModel> body)
         {
             var comparison = db.Products.ToDictionary(c => c.Key)
-                                    .Compare(body.ToDictionary(c => c.Id));
+                                    .SymmetricDiff(body.ToDictionary(c => c.Id));
             foreach (var valueIntersection in comparison.Intersection)
             {
                 valueIntersection.Left.Description = valueIntersection.Right.Name;
             }
-            foreach (var incoming in comparison.OnlyInRight)
+            foreach (var (_,incoming) in comparison.OnlyInRight)
             {
                 db.Add(new Product
                 {
@@ -49,7 +49,7 @@ namespace Tests
                     Description = incoming.Name
                 });
             }
-            foreach (var outgoing in comparison.OnlyInLeft)
+            foreach (var (_,outgoing) in comparison.OnlyInLeft)
             {
                 db.Remove(outgoing);
             }
