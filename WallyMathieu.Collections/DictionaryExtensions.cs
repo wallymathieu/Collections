@@ -5,7 +5,7 @@ using System.Linq;
 namespace WallyMathieu.Collections
 {
     /// <summary>
-    /// 
+    /// Extension methods on IDictionary
     /// </summary>
     public static class DictionaryExtensions
     {

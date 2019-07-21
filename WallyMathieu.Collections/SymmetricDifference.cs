@@ -68,6 +68,7 @@ namespace WallyMathieu.Collections
         IEquatable<SymmetricDifference<TKey, TLeft, TRight>>,
         ISymmetricDifference<TKey,TLeft, TRight>
     {
+        ///
         public SymmetricDifference(
             IEnumerable<(TKey,TLeft)> onlyInLeft, 
             IEnumerable<(TKey,TRight)> onlyInRight, 
@@ -89,11 +90,19 @@ namespace WallyMathieu.Collections
         /// Items with same keys only both collections.
         /// </summary>
         public IReadOnlyCollection<IKeyIntersection<TKey, TLeft, TRight>> Intersection { get; }
+        /// <summary>
+        /// String representation of difference
+        /// </summary>
         public override string ToString() => $"+: {Format(OnlyInRight)}, -: {Format(OnlyInLeft)}, =: {Format(Intersection)}";
 
         private string Format<T>(IEnumerable<T> collection) => string.Join(",", collection);
+        /// <summary>
+        /// Determines if the specified object is equal to the other object
+        /// </summary>
         public override bool Equals(object obj) => obj is SymmetricDifference<TKey, TLeft, TRight> diff && Equals(diff);
-
+        /// <summary>
+        /// Get hash value of difference
+        /// </summary>
         public override int GetHashCode()
         {
             unchecked
@@ -105,21 +114,23 @@ namespace WallyMathieu.Collections
                 return result;
             }
         }
-
+        /// <summary>
+        /// Determines if the specified object is equal to the other object
+        /// </summary>
         public bool Equals(SymmetricDifference<TKey, TLeft, TRight> other) =>
                 OnlyInRight.SequenceEqual(other.OnlyInRight)
                 && OnlyInLeft.SequenceEqual(other.OnlyInLeft)
                 && Intersection.SequenceEqual(other.Intersection);
 
         /// <summary>
-        /// Key intersection
+        /// Intersection values with the common key.
         /// </summary>
         public struct KeyIntersection : 
             IEquatable<KeyIntersection>,
             IKeyIntersection<TKey, TLeft, TRight>
         {
             /// <summary>
-            /// The key
+            /// The common key
             /// </summary>
             public TKey Key { get; }
             /// <summary>
@@ -179,6 +190,7 @@ namespace WallyMathieu.Collections
         IEquatable<SymmetricDifference<T>>,
         ISymmetricDifference<T>
     {
+        ///
         public SymmetricDifference(
             IEnumerable<T> onlyInLeft, 
             IEnumerable<T> onlyInRight)
@@ -194,11 +206,19 @@ namespace WallyMathieu.Collections
         /// Items only in the left collection.
         /// </summary>
         public IReadOnlyCollection<T> OnlyInLeft { get; }
+        /// <summary>
+        /// String representation of difference
+        /// </summary>
         public override string ToString() => $"+: {Format(OnlyInRight)}, -: {Format(OnlyInLeft)}";
 
-        private string Format<T>(IEnumerable<T> collection) => string.Join(",", collection);
+        private string Format(IEnumerable<T> collection) => string.Join(",", collection);
+        /// <summary>
+        /// Determines if the specified object is equal to the other object
+        /// </summary>
         public override bool Equals(object obj) => obj is SymmetricDifference<T> diff && Equals(diff);
-
+        /// <summary>
+        /// Get hash value for element
+        /// </summary>
         public override int GetHashCode()
         {
             unchecked
@@ -209,7 +229,9 @@ namespace WallyMathieu.Collections
                 return result;
             }
         }
-
+        /// <summary>
+        /// Determines if the specified object is equal to the other object
+        /// </summary>
         public bool Equals(SymmetricDifference<T> other) =>
                 OnlyInRight.SequenceEqual(other.OnlyInRight)
                 && OnlyInLeft.SequenceEqual(other.OnlyInLeft);
