@@ -11,6 +11,7 @@ namespace WallyMathieu.Collections
     {
         /// <summary>
         /// Compare two dictionaries with potentially different values for key differences.
+        /// The comparison is the equivalent of doing <code>right.Keys.Except(left.Keys)</code>, <code>left.Keys.Except(right.Keys)</code> and <code>left.Keys.Intersect(right.Keys)</code> to figure out the differences between the two dictionaries.
         /// </summary>
         /// <typeparam name="TLeft"></typeparam>
         /// <typeparam name="TRight"></typeparam>
