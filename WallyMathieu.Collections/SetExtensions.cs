@@ -20,10 +20,10 @@ namespace WallyMathieu.Collections
         /// var onlyInLeft = comparison.OnlyInLeft;
         /// </code>
         /// </example>
-        public static ISymmetricDifference<T> SymmetricDiff<T>(this ISet<T> right, ISet<T> left) 
+        public static ISymmetricDifference<T> SymmetricDiff<T>(this ISet<T> left, ISet<T> right) 
         {
-            var onlyInRight = right.Except(left);
             var onlyInLeft = left.Except(right);
+            var onlyInRight = right.Except(left);
 
             return new SymmetricDifference<T>(onlyInRight:onlyInRight, onlyInLeft:onlyInLeft);
         }
