@@ -35,5 +35,18 @@ namespace WallyMathieu.Collections
 
             return new SymmetricDifference<TKey, TLeft, TRight>(intersection: intersection, onlyInRight: onlyInRight, onlyInLeft: onlyInLeft);
         }
+
+        /// <summary>
+        /// Compare two dictionaries with potentially different values for key differences.
+        /// </summary>
+        /// <typeparam name="TExisting"></typeparam>
+        /// <typeparam name="TKey"></typeparam>
+        /// <param name="left"></param>
+        /// <returns>A comparison builder</returns>
+        public static IIncomingDifferenceBuilder<TKey, TExisting> Existing<TKey, TExisting>(
+            this IDictionary<TKey, TExisting> left)
+        {
+            return new IncomingDifferenceBuilder<TKey, TExisting>(left);
+        }
     }
 }
