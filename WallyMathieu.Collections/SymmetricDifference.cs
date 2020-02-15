@@ -180,6 +180,34 @@ namespace WallyMathieu.Collections
                     Key.Equals(other.Key)
                     && Right.Equals(other.Right)
                     && Left.Equals(other.Left);
+            /// <summary>
+            /// Determines if the specified objects are equal
+            /// </summary>
+            public static bool operator ==(KeyIntersection left, KeyIntersection right)
+            {
+                return left.Equals(right);
+            }
+            /// <summary>
+            /// Determines if the specified objects are not equal
+            /// </summary>
+            public static bool operator !=(KeyIntersection left, KeyIntersection right)
+            {
+                return !(left == right);
+            }
+        }
+        /// <summary>
+        /// Determines if the specified objects are equal
+        /// </summary>
+        public static bool operator ==(SymmetricDifference<TKey, TLeft, TRight> left, SymmetricDifference<TKey, TLeft, TRight> right)
+        {
+            return left.Equals(right);
+        }
+        /// <summary>
+        /// Determines if the specified objects are not equal
+        /// </summary>
+        public static bool operator !=(SymmetricDifference<TKey, TLeft, TRight> left, SymmetricDifference<TKey, TLeft, TRight> right)
+        {
+            return !(left == right);
         }
     }
     /// <summary>
@@ -236,5 +264,19 @@ namespace WallyMathieu.Collections
                 OnlyInRight.SequenceEqual(other.OnlyInRight)
                 && OnlyInLeft.SequenceEqual(other.OnlyInLeft);
 
+        /// <summary>
+        /// Determines if the specified objects are equal
+        /// </summary>
+        public static bool operator ==(SymmetricDifference<T> left, SymmetricDifference<T> right)
+        {
+            return left.Equals(right);
+        }
+        /// <summary>
+        /// Determines if the specified objects are not equal
+        /// </summary>
+        public static bool operator !=(SymmetricDifference<T> left, SymmetricDifference<T> right)
+        {
+            return !(left == right);
+        }
     }
 }
