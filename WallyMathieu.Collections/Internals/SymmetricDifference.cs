@@ -1,51 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+//NOTE: to be changed to internals in 2.0 release
 namespace WallyMathieu.Collections
 {
     /// <summary>
     /// Symmetric difference between two dictionary or map collections
     /// </summary>
     /// <typeparam name="TKey"></typeparam>
-    /// <typeparam name="TExisting"></typeparam>
-    /// <typeparam name="TIncoming"></typeparam>
-    public struct IncomingDifference<TKey, TIncoming, TExisting> :
-        IEquatable<IncomingDifference<TKey, TIncoming, TExisting>>,
-        IIncomingDifference<TKey, TIncoming, TExisting>
+    /// <typeparam name="TLeft"></typeparam>
+    /// <typeparam name="TRight"></typeparam>
+    public struct SymmetricDifference<TKey, TLeft, TRight> : 
+        IEquatable<SymmetricDifference<TKey, TLeft, TRight>>,
+        ISymmetricDifference<TKey,TLeft, TRight>
     {
         ///
-        public IncomingDifference(
-            IEnumerable<(TKey, TExisting)> toBeDeleted,
-            IEnumerable<(TKey, TIncoming)> toBeAdded,
-            IEnumerable<IKeyIncomingIntersection<TKey, TIncoming, TExisting>> intersection)
+        public SymmetricDifference(
+            IEnumerable<(TKey,TLeft)> onlyInLeft, 
+            IEnumerable<(TKey,TRight)> onlyInRight, 
+            IEnumerable<IKeyIntersection<TKey,TLeft,TRight>> intersection)
         {
-            this.ToBeDeleted = toBeDeleted.ToArray();
-            this.ToBeAdded = toBeAdded.ToArray();
+            this.OnlyInRight = onlyInRight.ToArray();
+            this.OnlyInLeft = onlyInLeft.ToArray();
             this.Intersection = intersection.ToArray();
         }
         /// <summary>
         /// Items with keys only in the right collection.
         /// </summary>
-        public IReadOnlyCollection<(TKey, TIncoming)> ToBeAdded { get; }
+        public IReadOnlyCollection<(TKey,TRight)> OnlyInRight { get; }
         /// <summary>
         /// Items with keys only in the left collection.
         /// </summary>
-        public IReadOnlyCollection<(TKey, TExisting)> ToBeDeleted { get; }
+        public IReadOnlyCollection<(TKey,TLeft)> OnlyInLeft { get; }
         /// <summary>
         /// Items with same keys only both collections.
         /// </summary>
-        public IReadOnlyCollection<IKeyIncomingIntersection<TKey, TIncoming, TExisting>> Intersection { get; }
+        public IReadOnlyCollection<IKeyIntersection<TKey, TLeft, TRight>> Intersection { get; }
         /// <summary>
         /// String representation of difference
         /// </summary>
-        public override string ToString() => $"+: {Format(ToBeAdded)}, -: {Format(ToBeDeleted)}, =: {Format(Intersection)}";
+        public override string ToString() => $"+: {Format(OnlyInRight)}, -: {Format(OnlyInLeft)}, =: {Format(Intersection)}";
 
         private string Format<T>(IEnumerable<T> collection) => string.Join(",", collection);
         /// <summary>
         /// Determines if the specified object is equal to the other object
         /// </summary>
-        public override bool Equals(object obj) => obj is IncomingDifference<TKey, TIncoming, TExisting> diff && Equals(diff);
+        public override bool Equals(object obj) => obj is SymmetricDifference<TKey, TLeft, TRight> diff && Equals(diff);
         /// <summary>
         /// Get hash value of difference
         /// </summary>
@@ -54,8 +54,8 @@ namespace WallyMathieu.Collections
             unchecked
             {
                 var result = 0;
-                result = (result * 397) ^ ToBeAdded.ToArray().GetHashCode();
-                result = (result * 397) ^ ToBeDeleted.ToArray().GetHashCode();
+                result = (result * 397) ^ OnlyInRight.ToArray().GetHashCode();
+                result = (result * 397) ^ OnlyInLeft.ToArray().GetHashCode();
                 result = (result * 397) ^ Intersection.ToArray().GetHashCode();
                 return result;
             }
@@ -63,17 +63,17 @@ namespace WallyMathieu.Collections
         /// <summary>
         /// Determines if the specified object is equal to the other object
         /// </summary>
-        public bool Equals(IncomingDifference<TKey, TIncoming,TExisting> other) =>
-                ToBeAdded.SequenceEqual(other.ToBeAdded)
-                && ToBeDeleted.SequenceEqual(other.ToBeDeleted)
+        public bool Equals(SymmetricDifference<TKey, TLeft, TRight> other) =>
+                OnlyInRight.SequenceEqual(other.OnlyInRight)
+                && OnlyInLeft.SequenceEqual(other.OnlyInLeft)
                 && Intersection.SequenceEqual(other.Intersection);
 
         /// <summary>
         /// Intersection values with the common key.
         /// </summary>
-        public struct KeyIntersection :
+        public struct KeyIntersection : 
             IEquatable<KeyIntersection>,
-            IKeyIncomingIntersection<TKey, TIncoming, TExisting>
+            IKeyIntersection<TKey, TLeft, TRight>
         {
             /// <summary>
             /// The common key
@@ -82,24 +82,24 @@ namespace WallyMathieu.Collections
             /// <summary>
             /// Right element with matching key
             /// </summary>
-            public TIncoming Incoming { get; }
+            public TRight Right { get; }
             /// <summary>
             /// Left element with matching key
             /// </summary>
-            public TExisting Existing { get; }
+            public TLeft Left { get; }
             /// <summary>
             /// 
             /// </summary>
-            public KeyIntersection(TKey key, TExisting existing, TIncoming incoming)
+            public KeyIntersection(TKey key, TLeft left, TRight right)
             {
                 Key = key;
-                Incoming = incoming;
-                Existing = existing;
+                Right = right;
+                Left = left;
             }
             /// <summary>
             /// String representation of intersection value
             /// </summary>
-            public override string ToString() => $"({Key}): {Existing} ~ {Incoming}";
+            public override string ToString() => $"({Key}): {Left} ~ {Right}";
             /// <summary>
             /// Determines if the specified object is equal to the other object
             /// </summary>
@@ -114,8 +114,8 @@ namespace WallyMathieu.Collections
                 {
                     var result = 0;
                     result = (result * 397) ^ Key.GetHashCode();
-                    result = (result * 397) ^ Incoming.GetHashCode();
-                    result = (result * 397) ^ Existing.GetHashCode();
+                    result = (result * 397) ^ Right.GetHashCode();
+                    result = (result * 397) ^ Left.GetHashCode();
                     return result;
                 }
             }
@@ -124,65 +124,64 @@ namespace WallyMathieu.Collections
             /// </summary>
             public bool Equals(KeyIntersection other) =>
                     Key.Equals(other.Key)
-                    && Incoming.Equals(other.Incoming)
-                    && Existing.Equals(other.Existing);
-
+                    && Right.Equals(other.Right)
+                    && Left.Equals(other.Left);
+            /// <inheritdoc/>
             public static bool operator ==(KeyIntersection left, KeyIntersection right)
             {
                 return left.Equals(right);
             }
-
+            /// <inheritdoc/>
             public static bool operator !=(KeyIntersection left, KeyIntersection right)
             {
                 return !(left == right);
             }
         }
-
-        public static bool operator ==(IncomingDifference<TKey, TIncoming,TExisting> left, IncomingDifference<TKey, TIncoming, TExisting> right)
+        /// <inheritdoc/>
+        public static bool operator ==(SymmetricDifference<TKey, TLeft, TRight> left, SymmetricDifference<TKey, TLeft, TRight> right)
         {
             return left.Equals(right);
         }
-
-        public static bool operator !=(IncomingDifference<TKey, TIncoming, TExisting> left, IncomingDifference<TKey, TIncoming, TExisting> right)
+        /// <inheritdoc/>
+        public static bool operator !=(SymmetricDifference<TKey, TLeft, TRight> left, SymmetricDifference<TKey, TLeft, TRight> right)
         {
             return !(left == right);
         }
     }
-
     /// <summary>
     /// Symmetric difference between two sets or set like collections
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public struct IncomingDifference<T> :
-        IEquatable<IncomingDifference<T>>,
-        IIncomingDifference<T>
+    public struct SymmetricDifference<T> : 
+        IEquatable<SymmetricDifference<T>>,
+        ISymmetricDifference<T>
     {
         ///
-        public IncomingDifference(
-            IEnumerable<T> toBeDeleted,
-            IEnumerable<T> toBeAdded)
+        public SymmetricDifference(
+            IEnumerable<T> onlyInLeft, 
+            IEnumerable<T> onlyInRight)
         {
-            this.ToBeAdded = toBeAdded.ToArray();
-            this.ToBeDeleted = toBeDeleted.ToArray();
+            this.OnlyInRight = onlyInRight.ToArray();
+            this.OnlyInLeft = onlyInLeft.ToArray();
         }
         /// <summary>
-        /// Items only in the existing collection.
+        /// Items only in the right collection.
         /// </summary>
-        public IReadOnlyCollection<T> ToBeAdded { get; }
+        public IReadOnlyCollection<T> OnlyInRight { get; }
         /// <summary>
-        /// Items only in the incoming collection.
+        /// Items only in the left collection.
         /// </summary>
-        public IReadOnlyCollection<T> ToBeDeleted { get; }
+        public IReadOnlyCollection<T> OnlyInLeft { get; }
         /// <summary>
         /// String representation of difference
         /// </summary>
-        public override string ToString() => $"+: {Format(ToBeAdded)}, -: {Format(ToBeDeleted)}";
+        public override string ToString() => $"+: {Format(OnlyInRight)}, -: {Format(OnlyInLeft)}";
 
         private string Format(IEnumerable<T> collection) => string.Join(",", collection);
         /// <summary>
         /// Determines if the specified object is equal to the other object
         /// </summary>
-        public override bool Equals(object obj) => obj is IncomingDifference<T> diff && Equals(diff);
+        public override bool Equals(object obj) => obj is SymmetricDifference<T> diff && Equals(diff);
         /// <summary>
         /// Get hash value for element
         /// </summary>
@@ -191,24 +190,24 @@ namespace WallyMathieu.Collections
             unchecked
             {
                 var result = 0;
-                result = (result * 397) ^ ToBeAdded.ToArray().GetHashCode();
-                result = (result * 397) ^ ToBeDeleted.ToArray().GetHashCode();
+                result = (result * 397) ^ OnlyInRight.ToArray().GetHashCode();
+                result = (result * 397) ^ OnlyInLeft.ToArray().GetHashCode();
                 return result;
             }
         }
         /// <summary>
         /// Determines if the specified object is equal to the other object
         /// </summary>
-        public bool Equals(IncomingDifference<T> other) =>
-                ToBeAdded.SequenceEqual(other.ToBeAdded)
-                && ToBeDeleted.SequenceEqual(other.ToBeDeleted);
-        ///
-        public static bool operator ==(IncomingDifference<T> left, IncomingDifference<T> right)
+        public bool Equals(SymmetricDifference<T> other) =>
+                OnlyInRight.SequenceEqual(other.OnlyInRight)
+                && OnlyInLeft.SequenceEqual(other.OnlyInLeft);
+        /// <inheritdoc/>
+        public static bool operator ==(SymmetricDifference<T> left, SymmetricDifference<T> right)
         {
             return left.Equals(right);
         }
-        /// 
-        public static bool operator !=(IncomingDifference<T> left, IncomingDifference<T> right)
+        /// <inheritdoc/>
+        public static bool operator !=(SymmetricDifference<T> left, SymmetricDifference<T> right)
         {
             return !(left == right);
         }

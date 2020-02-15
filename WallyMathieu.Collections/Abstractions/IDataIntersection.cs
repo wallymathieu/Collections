@@ -1,9 +1,9 @@
-﻿namespace WallyMathieu.Collections
+﻿namespace WallyMathieu.Collections.Abstractions
 {
     /// <summary>
     /// Intersection values where the keys match 
     /// </summary>
-    public interface IKeyIntersection<out TKey, out TLeft, out TRight>
+    public interface IDataIntersection<out TKey, out TIncoming, out TExisting>
     {
         /// <summary>
         /// The matching key
@@ -12,10 +12,10 @@
         /// <summary>
         /// Right element with matching key
         /// </summary>
-        TRight Right { get; }
+        TExisting Existing { get; }
         /// <summary>
         /// Left element with matching key
         /// </summary>
-        TLeft Left { get; }
+        TIncoming Incoming { get; }
     }
 }

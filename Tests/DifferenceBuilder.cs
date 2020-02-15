@@ -1,5 +1,8 @@
 using System.Collections.Generic;
+using System.Linq;
 using WallyMathieu.Collections;
+using WallyMathieu.Collections.Abstractions;
+using WallyMathieu.Collections.Internals;
 
 namespace Tests
 {
@@ -34,5 +37,36 @@ namespace Tests
         
         public IList<TKey> OnlyInRight { get; }=new List<TKey>();
 
+    }
+    public class DataDifferenceBuilder<TKey, TIncoming, TExisting>
+    {
+        public IDataDifference<TKey, TIncoming, TExisting> Build() =>
+            new DataDifference<TKey, TIncoming, TExisting>(
+                toBeAdded: ToBeAdded,
+                intersection: Intersection,
+                toBeDeleted: ToBeDeleted);
+
+        public IList<(TKey, TIncoming)> ToBeAdded { get; } = new List<(TKey, TIncoming)>();
+
+        public IList<IDataIntersection<TKey, TIncoming, TExisting>> Intersection { get; } = new List<IDataIntersection<TKey, TIncoming, TExisting>>();
+
+        public IList<(TKey, TExisting)> ToBeDeleted { get; } = new List<(TKey, TExisting)>();
+
+        public DataDifferenceBuilder<TKey, TIncoming, TExisting> AddKeyIntersection(TKey key, TExisting existing,TIncoming incoming)
+        {
+            Intersection.Add(new DataDifference<TKey, TIncoming, TExisting>.KeyIntersection(key, existing, incoming));
+            return this;
+        }
+    }
+    public class DataDifferenceBuilder<TKey>
+    {
+        public IDataDifference<TKey> Build() =>
+         new DataDifference<TKey>(
+             toBeAdded: ToBeAdded,
+             toBeDeleted: ToBeDeleted);
+
+        public IList<TKey> ToBeDeleted { get; } = new List<TKey>();
+
+        public IList<TKey> ToBeAdded { get; } = new List<TKey>();
     }
 }

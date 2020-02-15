@@ -1,9 +1,10 @@
-﻿namespace WallyMathieu.Collections
+﻿//NOTE: to be changed to abstractions in 2.0 release
+namespace WallyMathieu.Collections
 {
     /// <summary>
     /// Intersection values where the keys match 
     /// </summary>
-    public interface IKeyIncomingIntersection<out TKey, out TIncoming, out TExisting>
+    public interface IKeyIntersection<out TKey, out TLeft, out TRight>
     {
         /// <summary>
         /// The matching key
@@ -12,10 +13,10 @@
         /// <summary>
         /// Right element with matching key
         /// </summary>
-        TExisting Existing { get; }
+        TRight Right { get; }
         /// <summary>
         /// Left element with matching key
         /// </summary>
-        TIncoming Incoming { get; }
+        TLeft Left { get; }
     }
 }
