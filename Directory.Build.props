@@ -4,7 +4,7 @@
     <Description>Collections and collection extensions</Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <VersionPrefix>1.2.0</VersionPrefix>
-    <VersionSuffix>beta-2</VersionSuffix>
+    <VersionSuffix></VersionSuffix>
     <PackageProjectUrl>https://github.com/wallymathieu/Collections</PackageProjectUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/wallymathieu/Collections.git</RepositoryUrl>
