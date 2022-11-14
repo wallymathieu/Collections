@@ -69,3 +69,16 @@ foreach (var batch in hugelist.BatchesOf(2000))
 }
 ...
 ```
+
+### Pairwise
+
+Used to iterate over collection and get the collection elements pairwise.
+Yields the result of the application of the map function over each pair.
+
+```c#
+using WallyMathieu.Collections;
+...
+var pairs = Enumerable.Range(0,4).Pairwise().ToArray(); 
+// will be
+Assert.Equal(new[] { (0, 1), (1, 2), (2, 3) },pairs);
+```

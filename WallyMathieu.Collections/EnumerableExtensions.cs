@@ -94,5 +94,34 @@ namespace WallyMathieu.Collections
             yield return currentChunk;
         }
 
+        /// <summary>
+        /// Used to iterate over collection and get the collection elements pairwise.
+        /// </summary>
+        /// <remarks>
+        /// Note that the same element will at most 2 times. For example for
+        /// 0.To(3).Pairwise().ToArray() you will get new[] { (0, 1), (1, 2), (2, 3) }
+        /// </remarks>
+        /// <param name="collection"></param>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IEnumerable<(T,T)> Pairwise<T>(
+            this IEnumerable<T> collection)
+        {
+            using (var enumerator = collection.GetEnumerator())
+            {
+
+                if (!enumerator.MoveNext())
+                {
+                    yield break;
+                }
+
+                var last = enumerator.Current;
+                for (; enumerator.MoveNext();)
+                {
+                    yield return (last, enumerator.Current);
+                    last = enumerator.Current;
+                }
+            }
+        }
     }
 }

@@ -19,3 +19,4 @@ obj/
 .ionide/
 .idea/
 .vscode/
+*.user
