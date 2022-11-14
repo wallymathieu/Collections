@@ -107,8 +107,8 @@ namespace WallyMathieu.Collections
         /// <typeparam name="T"></typeparam>
         /// <typeparam name="TResult"></typeparam>
         /// <returns></returns>
-        public static IEnumerable<TResult> Pairwise<T, TResult>(
-            this IEnumerable<T> collection, Func<T, T, TResult> func)
+        public static IEnumerable<(T,T)> Pairwise<T>(
+            this IEnumerable<T> collection)
         {
             using (var enumerator = collection.GetEnumerator())
             {
@@ -121,7 +121,7 @@ namespace WallyMathieu.Collections
                 var last = enumerator.Current;
                 for (; enumerator.MoveNext();)
                 {
-                    yield return func(last, enumerator.Current);
+                    yield return (last, enumerator.Current);
                     last = enumerator.Current;
                 }
             }
