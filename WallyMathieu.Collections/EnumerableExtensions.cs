@@ -102,7 +102,23 @@ namespace WallyMathieu.Collections
         /// <typeparam name="TKey">The type of the key used to split consecutive elements.</typeparam>
         /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
         /// <returns>A sequence of adjacent groups that share the same projected key.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="collection"/> or <paramref name="keySelector"/> is <see langword="null"/>.</exception>
         public static IEnumerable<IGrouping<TKey, T>> ChunkBy<TKey, T>(this IEnumerable<T> collection, Func<T, TKey> keySelector)
+        {
+            if (collection == null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
+            if (keySelector == null)
+            {
+                throw new ArgumentNullException(nameof(keySelector));
+            }
+
+            return ChunkByIterator(collection, keySelector);
+        }
+
+        private static IEnumerable<IGrouping<TKey, T>> ChunkByIterator<TKey, T>(IEnumerable<T> collection, Func<T, TKey> keySelector)
         {
             using (var enumerator = collection.GetEnumerator())
             {

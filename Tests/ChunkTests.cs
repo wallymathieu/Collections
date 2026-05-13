@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Xunit;
 using WallyMathieu.Collections;
 using System.Collections.Generic;
@@ -73,6 +74,18 @@ namespace Tests
         {
             var result = new int[0].ChunkBy(i => i % 2).ToArray();
             Assert.Empty(result);
+        }
+
+        [Fact]
+        public void ChunkBy_throws_for_null_collection()
+        {
+            Assert.Throws<ArgumentNullException>(() => EnumerableExtensions.ChunkBy<int, int>(null, i => i));
+        }
+
+        [Fact]
+        public void ChunkBy_throws_for_null_selector()
+        {
+            Assert.Throws<ArgumentNullException>(() => new[] { 1 }.ChunkBy<int, int>(null));
         }
 
         private bool? Drop9And6(int i)
