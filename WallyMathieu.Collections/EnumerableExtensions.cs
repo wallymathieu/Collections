@@ -97,11 +97,11 @@ namespace WallyMathieu.Collections
         /// <summary>
         /// Enumerates over consecutive items, grouping adjacent elements that produce the same key.
         /// </summary>
-        /// <param name="collection"></param>
-        /// <param name="keySelector"></param>
-        /// <typeparam name="TKey"></typeparam>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
+        /// <param name="collection">The sequence to chunk.</param>
+        /// <param name="keySelector">A function that computes the comparison key for each element.</param>
+        /// <typeparam name="TKey">The type of the key used to split consecutive elements.</typeparam>
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <returns>A sequence of adjacent groups that share the same projected key.</returns>
         public static IEnumerable<IGrouping<TKey, T>> ChunkBy<TKey, T>(this IEnumerable<T> collection, Func<T, TKey> keySelector)
         {
             using (var enumerator = collection.GetEnumerator())
