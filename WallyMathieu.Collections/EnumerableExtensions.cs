@@ -95,6 +95,45 @@ namespace WallyMathieu.Collections
         }
 
         /// <summary>
+        /// Enumerates over consecutive items, grouping adjacent elements that produce the same key.
+        /// </summary>
+        /// <param name="collection"></param>
+        /// <param name="keySelector"></param>
+        /// <typeparam name="TKey"></typeparam>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IEnumerable<IGrouping<TKey, T>> ChunkBy<TKey, T>(this IEnumerable<T> collection, Func<T, TKey> keySelector)
+        {
+            using (var enumerator = collection.GetEnumerator())
+            {
+                if (!enumerator.MoveNext())
+                {
+                    yield break;
+                }
+
+                var comparer = EqualityComparer<TKey>.Default;
+                var currentKey = keySelector(enumerator.Current);
+                var currentChunk = new Chunks<TKey, T>(currentKey, enumerator.Current);
+
+                while (enumerator.MoveNext())
+                {
+                    var key = keySelector(enumerator.Current);
+                    if (comparer.Equals(currentChunk.Key, key))
+                    {
+                        currentChunk.Enumerable.Add(enumerator.Current);
+                    }
+                    else
+                    {
+                        yield return currentChunk;
+                        currentChunk = new Chunks<TKey, T>(key, enumerator.Current);
+                    }
+                }
+
+                yield return currentChunk;
+            }
+        }
+
+        /// <summary>
         /// Used to iterate over collection and get the collection elements pairwise.
         /// </summary>
         /// <remarks>

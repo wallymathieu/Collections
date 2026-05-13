@@ -27,6 +27,54 @@ namespace Tests
             }, chunked.ToArray());
         }
 
+        [Fact]
+        public void ChunkBy_uses_consecutive_keys()
+        {
+            var array = new[] { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 };
+            var chunked = new List<(bool, int[])>();
+
+            foreach (var grouping in array.ChunkBy(n => n % 2 == 0))
+            {
+                chunked.Add((grouping.Key, grouping.ToArray()));
+            }
+
+            Assert.Equal(new[]
+            {
+                (false, new[] {3, 1}),
+                (true, new[] {4}),
+                (false, new[] {1, 5, 9}),
+                (true, new[] {2, 6}),
+                (false, new[] {5, 3, 5})
+            }, chunked.ToArray());
+        }
+
+        [Fact]
+        public void ChunkBy_keeps_null_keys()
+        {
+            var array = new[] { "a", null, null, "b", null };
+            var chunked = new List<(string, string[])>();
+
+            foreach (var grouping in array.ChunkBy(item => item))
+            {
+                chunked.Add((grouping.Key, grouping.ToArray()));
+            }
+
+            Assert.Equal(new[]
+            {
+                ("a", new[] {"a"}),
+                ((string)null, new string[] {null, null}),
+                ("b", new[] {"b"}),
+                ((string)null, new string[] {null})
+            }, chunked.ToArray());
+        }
+
+        [Fact]
+        public void ChunkBy_handles_empty_collection()
+        {
+            var result = new int[0].ChunkBy(i => i % 2).ToArray();
+            Assert.Empty(result);
+        }
+
         private bool? Drop9And6(int i)
         {
             return i == 9 || i == 6 ? (bool?)null : i%2==0;
