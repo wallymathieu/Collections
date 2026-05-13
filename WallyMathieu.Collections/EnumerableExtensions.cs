@@ -134,13 +134,14 @@ namespace WallyMathieu.Collections
                 while (enumerator.MoveNext())
                 {
                     var key = keySelector(enumerator.Current);
-                    if (comparer.Equals(currentChunk.Key, key))
+                    if (comparer.Equals(currentKey, key))
                     {
                         currentChunk.Enumerable.Add(enumerator.Current);
                     }
                     else
                     {
                         yield return currentChunk;
+                        currentKey = key;
                         currentChunk = new Chunks<TKey, T>(key, enumerator.Current);
                     }
                 }
