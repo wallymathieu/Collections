@@ -8,6 +8,9 @@ on:
     branches: ['*']
 env:
   DOTNET_VERSION: 6.0.403
+permissions:
+  contents: read
+  packages: write
 jobs:
   build:
     runs-on: windows-latest
