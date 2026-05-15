@@ -97,6 +97,11 @@ namespace WallyMathieu.Collections
         /// <summary>
         /// Enumerates over consecutive items, grouping adjacent elements that produce the same key.
         /// </summary>
+        /// <remarks>
+        /// This is intended for dividing a sequence into consecutive segments or slices based on a projected key.
+        /// Unlike size-based chunking, the segment boundaries are determined by changes in <paramref name="keySelector"/>.
+        /// Unlike <see cref="Chunk{TKey, T}(IEnumerable{T}, Func{T, TKey})"/>, <see langword="null"/> keys are retained as valid keys and boundaries, and an empty input sequence yields no groups.
+        /// </remarks>
         /// <param name="collection">The sequence to chunk.</param>
         /// <param name="keySelector">A function that computes the comparison key for each element.</param>
         /// <typeparam name="TKey">The type of the key used to split consecutive elements.</typeparam>
