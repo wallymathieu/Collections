@@ -1,0 +1,73 @@
+name: "Upload preview package to GitHub package feed"
+
+on:
+  push:
+    branches: ['*']
+    tags: ['*']
+  pull_request:
+    branches: ['*']
+env:
+  DOTNET_VERSION: 6.0.403
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version:  ${{ env.DOTNET_VERSION }}
+
+      - name: Compute version suffix
+        shell: pwsh
+        run: |
+          $buildId = "${{ github.run_number }}".PadLeft(5, '0')
+
+          $isTag = "${{ github.ref }}".StartsWith("refs/tags/")
+          $isPR  = "${{ github.event_name }}" -eq "pull_request"
+
+          if ($isTag) {
+            $suffix = ""
+          } elseif ($isPR) {
+            $prNumber = "${{ github.event.pull_request.number }}"
+            $suffix = "PR$prNumber-$buildId"
+          } else {
+            $branchName = "${{ github.ref_name }}".Replace("_","").Replace("/","-")
+            if ($branchName -eq "master") {
+              $suffix = "CI$buildId"
+            } else {
+              $suffix = "$branchName-CI$buildId"
+            }
+          }
+
+          echo "VERSION_SUFFIX=$suffix" >> $env:GITHUB_ENV
+          Write-Host "VersionSuffix = '$suffix'"
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Test
+        run: dotnet test
+
+      - name: Pack
+        run: |
+          if ("${{ env.VERSION_SUFFIX }}") {
+            dotnet pack --version-suffix "${{ env.VERSION_SUFFIX }}"
+          } else {
+            dotnet pack
+          }
+        shell: pwsh
+
+      - name: Setup .NET with publish permissions
+        uses: actions/setup-dotnet@v3
+        with:
+          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+          dotnet-version:  ${{ env.DOTNET_VERSION }}
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Push to GitHub NuGet feed
+        if: github.event_name == 'push'
+        run: dotnet nuget push "bin/**/*.nupkg" --source github --skip-duplicate
+        shell: bash
