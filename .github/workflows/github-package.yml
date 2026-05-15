@@ -73,6 +73,5 @@ jobs:
       - name: Push to GitHub NuGet feed
         #if: github.event_name == 'push'
         run: |
-          dotnet nuget add source --username "${{ github.repository_owner }}" --password "${{ secrets.GITHUB_TOKEN }}" --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
           dotnet nuget push "bin/**/*.nupkg" --source github --skip-duplicate
         shell: bash
