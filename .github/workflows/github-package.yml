@@ -62,16 +62,7 @@ jobs:
           }
         shell: pwsh
 
-      - name: Setup .NET with publish permissions
-        uses: actions/setup-dotnet@v3
-        with:
-          source-url: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
-          dotnet-version:  ${{ env.DOTNET_VERSION }}
-        env:
-          NUGET_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
       - name: Push to GitHub NuGet feed
-        #if: github.event_name == 'push'
         run: |
           dotnet nuget push "**/bin/**/*.nupkg" --source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json" --api-key "${{ secrets.GITHUB_TOKEN }}" --skip-duplicate
         shell: bash
