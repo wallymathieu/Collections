@@ -55,8 +55,8 @@ jobs:
 
       - name: Pack
         run: |
-          if ("${{ env.VERSION_SUFFIX }}") {
-            dotnet pack --version-suffix "${{ env.VERSION_SUFFIX }}"
+          if ($env:VERSION_SUFFIX) {
+            dotnet pack --version-suffix "$env:VERSION_SUFFIX"
           } else {
             dotnet pack
           }
