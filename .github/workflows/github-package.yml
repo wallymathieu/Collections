@@ -2,10 +2,10 @@ name: "Upload preview package to GitHub package feed"
 
 on:
   push:
-    branches: ['*']
+    branches: ['master','main']
     tags: ['*']
   pull_request:
-    branches: ['*']
+    branches: ['master','main']
 env:
   DOTNET_VERSION: 6.0.403
 permissions:
