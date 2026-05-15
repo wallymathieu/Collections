@@ -95,6 +95,67 @@ namespace WallyMathieu.Collections
         }
 
         /// <summary>
+        /// Enumerates over consecutive items, grouping adjacent elements that produce the same key.
+        /// </summary>
+        /// <remarks>
+        /// This is intended for dividing a sequence into consecutive segments or slices based on a projected key.
+        /// Unlike size-based chunking, the segment boundaries are determined by changes in <paramref name="keySelector"/>.
+        /// Unlike <see cref="Chunk{TKey, T}(IEnumerable{T}, Func{T, TKey})"/>, <see langword="null"/> keys are retained as valid keys and boundaries, and an empty input sequence yields no groups.
+        /// </remarks>
+        /// <param name="collection">The sequence to chunk.</param>
+        /// <param name="keySelector">A function that computes the comparison key for each element.</param>
+        /// <typeparam name="TKey">The type of the key used to split consecutive elements.</typeparam>
+        /// <typeparam name="T">The type of the elements in the sequence.</typeparam>
+        /// <returns>A sequence of adjacent groups that share the same projected key.</returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="collection"/> or <paramref name="keySelector"/> is <see langword="null"/>.</exception>
+        public static IEnumerable<IGrouping<TKey, T>> ChunkBy<TKey, T>(this IEnumerable<T> collection, Func<T, TKey> keySelector)
+        {
+            if (collection == null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
+            if (keySelector == null)
+            {
+                throw new ArgumentNullException(nameof(keySelector));
+            }
+
+            return ChunkByIterator(collection, keySelector);
+        }
+
+        private static IEnumerable<IGrouping<TKey, T>> ChunkByIterator<TKey, T>(IEnumerable<T> collection, Func<T, TKey> keySelector)
+        {
+            using (var enumerator = collection.GetEnumerator())
+            {
+                if (!enumerator.MoveNext())
+                {
+                    yield break;
+                }
+
+                var comparer = EqualityComparer<TKey>.Default;
+                var currentKey = keySelector(enumerator.Current);
+                var currentChunk = new Chunks<TKey, T>(currentKey, enumerator.Current);
+
+                while (enumerator.MoveNext())
+                {
+                    var key = keySelector(enumerator.Current);
+                    if (comparer.Equals(currentKey, key))
+                    {
+                        currentChunk.Enumerable.Add(enumerator.Current);
+                    }
+                    else
+                    {
+                        yield return currentChunk;
+                        currentKey = key;
+                        currentChunk = new Chunks<TKey, T>(key, enumerator.Current);
+                    }
+                }
+
+                yield return currentChunk;
+            }
+        }
+
+        /// <summary>
         /// Used to iterate over collection and get the collection elements pairwise.
         /// </summary>
         /// <remarks>
