@@ -1,4 +1,4 @@
-# Collections
+# Collections [![NuGet](http://img.shields.io/nuget/v/WallyMathieu.Collections.svg)](https://www.nuget.org/packages/WallyMathieu.Collections)
 
 ## Functionality
 
